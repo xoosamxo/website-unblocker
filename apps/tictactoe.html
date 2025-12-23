@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TicTacToe</title>
+  <style>
+    body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#111;color:#fff}
+    .board{display:grid;grid-template-columns:repeat(3,80px);gap:8px}
+    button{width:80px;height:80px;font-size:32px;background:#0f1720;color:#fff;border-radius:8px;border:0}
+  </style>
+  <script>
+    let turn='X',cells=[];
+    function win(c){
+      const W=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      return W.some(a => a.every(i => c[i]===turn));
+    }
+    function clickCell(i){
+      if(cells[i].textContent) return;
+      cells[i].textContent = turn;
+      if(win(cells.map(b=>b.textContent))){setTimeout(()=>alert(turn+' wins'),10);reset();return}
+      if(cells.every(b=>b.textContent)) {setTimeout(()=>alert('Draw'),10);reset();return}
+      turn = turn==='X'?'O':'X';
+    }
+    function reset(){cells.forEach(b=>b.textContent='');turn='X'}
+    window.onload = ()=>{cells=Array.from(document.querySelectorAll('.cell'));cells.forEach((b,i)=>b.addEventListener('click',()=>clickCell(i)))}
+  </script>
+</head>
+<body>
+  <div>
+    <h2 style="text-align:center">Tic‑Tac‑Toe</h2>
+    <div class="board">
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    </div>
+    <p style="text-align:center;margin-top:10px"><button onclick="reset()">Reset</button></p>
+  </div>
+</body>
+</html>

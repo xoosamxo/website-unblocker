@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Snake</title>
+  <style>
+    body{display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#000;color:#fff}
+    canvas{background:#0b0b0b;border-radius:8px}
+  </style>
+  <script>
+    let canvas,ctx,grid=20,px=10,py=10,ax=15,ay=15,tail=3,trail=[],vx=1,vy=0;
+    function key(e){
+      if(e.key==='ArrowLeft'){vx=-1;vy=0}
+      if(e.key==='ArrowRight'){vx=1;vy=0}
+      if(e.key==='ArrowUp'){vx=0;vy=-1}
+      if(e.key==='ArrowDown'){vx=0;vy=1}
+    }
+    function loop(){
+      px+=vx;py+=vy;
+      if(px<0)px=grid-1;if(px>=grid)px=0;if(py<0)py=grid-1;if(py>=grid)py=0;
+      ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle='#0f0';
+      for(let i=0;i<trail.length;i++){let p=trail[i];ctx.fillRect(p.x*20,p.y*20,18,18);if(p.x===px&&p.y===py){tail=3}}
+      trail.push({x:px,y:py});while(trail.length>tail)trail.shift();
+      if(ax===px&&ay===py){tail++;ax=Math.floor(Math.random()*grid);ay=Math.floor(Math.random()*grid)}
+      ctx.fillStyle='#f33';ctx.fillRect(ax*20,ay*20,18,18);
+    }
+    window.onload=()=>{
+      canvas=document.createElement('canvas');canvas.width=grid*20;canvas.height=grid*20;document.body.appendChild(canvas);ctx=canvas.getContext('2d');
+      document.addEventListener('keydown',key);setInterval(loop,90);
+    }
+  </script>
+</head>
+<body>
+  <div style="text-align:center"><h2>Snake (Arrow keys)</h2></div>
+</body>
+</html>
